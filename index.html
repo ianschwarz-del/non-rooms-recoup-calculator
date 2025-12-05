@@ -315,7 +315,17 @@
       calcButton: "How much can I get back?",
       recoveryHeading: "Estimated Recovery with One Journey",
       recoveryFeesTemplate: "{dept} revenue recouped",
-      ctaBook: "Book a 15-minute Review Now!"
+      ctaBook: "Book a 15-minute Review Now!",
+      // NEW: localized department option labels
+      departmentOptions: {
+        "Spa": "Spa",
+        "Food & Beverage": "Food and Beverage",
+        "Banquets & Catering": "Banquets & Catering",
+        "Ancillary Room Revenue": "Ancillary Room Revenue",
+        "Meetings & Events": "Meetings and Events",
+        "Retail Outlets": "Retail Outlets",
+        "Other": "Other"
+      }
     },
     es: {
       title: "Calculadora de Recuperación de Ingresos Hoteleros",
@@ -332,7 +342,16 @@
       calcButton: "¿Cuánto puedo recuperar?",
       recoveryHeading: "Recuperación estimada con One Journey",
       recoveryFeesTemplate: "Ingresos de {dept} recuperados",
-      ctaBook: "Reserva una revisión de 15 minutos"
+      ctaBook: "Reserva una revisión de 15 minutos",
+      departmentOptions: {
+        "Spa": "Spa",
+        "Food & Beverage": "Alimentos y Bebidas",
+        "Banquets & Catering": "Banquetes y Catering",
+        "Ancillary Room Revenue": "Ingresos auxiliares de habitaciones",
+        "Meetings & Events": "Reuniones y Eventos",
+        "Retail Outlets": "Tiendas y Retail",
+        "Other": "Otros"
+      }
     },
     fr: {
       title: "Calculateur de Recouvrement des Revenus Hôteliers",
@@ -349,7 +368,16 @@
       calcButton: "Combien puis-je récupérer ?",
       recoveryHeading: "Recouvrement estimé avec One Journey",
       recoveryFeesTemplate: "Revenus {dept} récupérés",
-      ctaBook: "Planifier un entretien de 15 minutes"
+      ctaBook: "Planifier un entretien de 15 minutes",
+      departmentOptions: {
+        "Spa": "Spa",
+        "Food & Beverage": "Restauration",
+        "Banquets & Catering": "Banquets et Traiteur",
+        "Ancillary Room Revenue": "Revenus auxiliaires des chambres",
+        "Meetings & Events": "Réunions et Événements",
+        "Retail Outlets": "Boutiques",
+        "Other": "Autre"
+      }
     },
     de: {
       title: "Rechner zur Rückgewinnung von Hoteleinnahmen",
@@ -366,7 +394,16 @@
       calcButton: "Wie viel kann ich zurückholen?",
       recoveryHeading: "Geschätzte Rückgewinnung mit One Journey",
       recoveryFeesTemplate: "Zurückgewonnene {dept}-Einnahmen",
-      ctaBook: "15-minütiges Review buchen"
+      ctaBook: "15-minütiges Review buchen",
+      departmentOptions: {
+        "Spa": "Spa",
+        "Food & Beverage": "Food & Beverage",
+        "Banquets & Catering": "Bankette & Catering",
+        "Ancillary Room Revenue": "Zusätzliche Zimmererträge",
+        "Meetings & Events": "Meetings & Events",
+        "Retail Outlets": "Einzelhandelsflächen",
+        "Other": "Sonstige"
+      }
     },
     ar: {
       title: "حاسبة استعادة إيرادات الفندق",
@@ -383,13 +420,35 @@
       calcButton: "كم يمكنني استعادته؟",
       recoveryHeading: "الاسترداد التقديري مع One Journey",
       recoveryFeesTemplate: "إيرادات {dept} المستردة",
-      ctaBook: "احجز مراجعة لمدة 15 دقيقة الآن"
+      ctaBook: "احجز مراجعة لمدة 15 دقيقة الآن",
+      departmentOptions: {
+        "Spa": "السبا",
+        "Food & Beverage": "الأطعمة والمشروبات",
+        "Banquets & Catering": "الولائم والتموين",
+        "Ancillary Room Revenue": "إيرادات الغرف الإضافية",
+        "Meetings & Events": "الاجتماعات والفعاليات",
+        "Retail Outlets": "متاجر البيع بالتجزئة",
+        "Other": "أخرى"
+      }
     }
   };
 
   function getSelectedDepartmentLabel() {
     const sel = document.getElementById("department");
     return sel.options[sel.selectedIndex].text || "Spa";
+  }
+
+  // NEW: update department option labels based on language
+  function updateDepartmentOptions(lang) {
+    const t = translations[lang] || translations.en;
+    const map = t.departmentOptions || {};
+    const sel = document.getElementById("department");
+    Array.from(sel.options).forEach(opt => {
+      const key = opt.value; // underlying key remains stable
+      if (map[key]) {
+        opt.textContent = map[key];
+      }
+    });
   }
 
   function applyLanguage(lang) {
@@ -415,6 +474,9 @@
 
     document.getElementById("calcBtn").textContent = t.calcButton;
     document.getElementById("ctaBook").textContent = t.ctaBook;
+
+    // update dropdown option labels for the selected language
+    updateDepartmentOptions(lang);
 
     updateDynamicLabels();
   }
